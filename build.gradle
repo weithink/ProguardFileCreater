@@ -1,0 +1,39 @@
+apply plugin: 'java'
+
+group 'com.weithink'
+version '1.0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.weithink.proguardfile.Main'
+        attributes 'Manifest-Version': version
+        attributes "Jar-Version": "${version}"
+        attributes "Build-Time": releaseTime()
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd HH:mm ZZZ", TimeZone.getDefault())
+}
+
+defaultTasks 'buildJar'
