@@ -1,5 +1,6 @@
 package com.weithink.proguardfile;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,18 @@ public class SpecificCharacterProguard {
     public SpecificCharacterProguard(String fileName, char... chars) {
         this.chars = chars;
         this.fileName = fileName;
+        deleteFile(fileName);
         len = Math.max(8, (int) (Math.log(8000) / Math.log(chars.length) * 1.5));
         System.out.println("最大长度：" + len);
     }
+
+    private void deleteFile(String fileName) {
+        File file = new File(fileName);
+        if (file.exists()) {
+            file.delete();
+        }
+    }
+
 
     public void start() {
         for (int i = 0; i < 8000; i++) {
